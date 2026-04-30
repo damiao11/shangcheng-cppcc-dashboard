@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -8,309 +8,1546 @@
     <link href="https://fonts.googleapis.com/css2?family=PingFang+SC:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --accent-primary: #3a67ab;        /* 深蓝 */
-            --accent-secondary: #bacbe3;      /* 浅紫蓝 */
-            --bg-light: #def1f5;            /* 淡蓝背景 */
-            --accent-cyan: #c5e8ee;          /* 青蓝 */
-            --radius-custom: 28px;
+            --accent-primary: #3a67ab;
+            --accent-secondary: #bacbe3;
+            --bg-light: #def1f5;
+            --accent-cyan: #c5e8ee;
         }
-
-        body { 
-            font-family: "PingFang SC", system-ui, sans-serif; 
+        body {
+            font-family: "PingFang SC", system-ui, sans-serif;
             background: linear-gradient(135deg, var(--bg-light) 0%, var(--accent-cyan) 100%);
             color: #1e293b;
             min-height: 100vh;
         }
-
         .platform-shell { max-width: 1400px; margin: 0 auto; padding: 24px; }
-
-        .nav-item { position: relative; padding: 10px 20px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; border-radius: 14px; }
+        .nav-item { position: relative; padding: 10px 20px; transition: all 0.3s; cursor: pointer; border-radius: 14px; }
         .nav-item:hover { background: var(--accent-secondary); color: var(--accent-primary); }
-        .nav-item.active { color: white; font-weight: 700; background: var(--accent-primary); box-shadow: 0 4px 12px rgba(58, 103, 171, 0.2); }
-
-        .top-nav { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); border: 1px solid var(--accent-secondary); border-radius: var(--radius-custom); }
-
-        .sector-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border-radius: 24px; border: 1px solid var(--accent-secondary); transition: all 0.4s ease; cursor: pointer; position: relative; overflow: hidden; }
-        .sector-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -12px rgba(58, 103, 171, 0.15); border-color: var(--accent-primary); }
-
+        .nav-item.active { color: white; font-weight: 700; background: var(--accent-primary); box-shadow: 0 4px 12px rgba(58,103,171,0.2); }
+        .top-nav { background: rgba(255,255,255,0.7); backdrop-filter: blur(20px); border: 1px solid var(--accent-secondary); border-radius: 28px; }
+        .sector-card { background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 24px; border: 1px solid var(--accent-secondary); transition: all 0.4s ease; cursor: pointer; overflow: hidden; }
+        .sector-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -12px rgba(58,103,171,0.15); border-color: var(--accent-primary); }
         .plan-card { background: white; border-radius: 20px; border-left: 4px solid var(--accent-primary); transition: all 0.3s ease; cursor: pointer; }
-        .plan-card:hover { transform: translateX(10px); background: var(--bg-light); }
-
-        .detail-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 24px; }
-        .detail-content { background: white; width: 100%; max-width: 1000px; max-height: 85vh; border-radius: 36px; overflow-y: auto; position: relative; box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.3); animation: pop 0.5s cubic-bezier(0.17, 0.67, 0.16, 0.99); }
+        .plan-card:hover { transform: translateX(8px); background: var(--bg-light); }
+        .studio-card { background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 20px; border: 1px solid var(--accent-secondary); transition: all 0.3s ease; cursor: pointer; }
+        .studio-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px -8px rgba(58,103,171,0.12); border-color: var(--accent-primary); }
+        .detail-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.6); backdrop-filter: blur(12px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 24px; }
+        .detail-content { background: white; width: 100%; max-width: 1000px; max-height: 85vh; border-radius: 36px; overflow-y: auto; box-shadow: 0 40px 100px -20px rgba(0,0,0,0.3); animation: pop 0.4s ease; }
         @keyframes pop { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-
         .glass-tag { background: var(--accent-cyan); color: var(--accent-primary); padding: 4px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; }
-        
         .timeline-container { position: relative; padding-left: 2rem; }
         .timeline-container::before { content: ''; position: absolute; left: 0.75rem; top: 0; bottom: 0; width: 2px; background: var(--accent-secondary); }
         .timeline-dot { position: absolute; left: 0.45rem; width: 0.75rem; height: 0.75rem; border-radius: 50%; background: var(--accent-primary); border: 2px solid white; box-shadow: 0 0 0 4px var(--accent-secondary); }
+        .month-badge { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 14px; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+        .month-spring { background: #dbeafe; color: #1e40af; }
+        .month-summer { background: #dcfce7; color: #166534; }
+        .month-autumn { background: #fef3c7; color: #92400e; }
+        .month-winter { background: #fce7f3; color: #9d174d; }
+        .stat-card { background: white; border-radius: 20px; padding: 24px; border: 1px solid var(--accent-secondary); text-align: center; transition: all 0.3s ease; }
+        .stat-card:hover { border-color: var(--accent-primary); box-shadow: 0 8px 24px -8px rgba(58,103,171,0.1); }
+        .photo-card { position: relative; overflow: hidden; border-radius: 20px; cursor: pointer; aspect-ratio: 4/3; }
+        .photo-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .photo-card:hover img { transform: scale(1.08); }
+        .photo-card .photo-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%); display: flex; align-items: flex-end; padding: 16px; }
+        .sector-photo { width: 100%; height: 160px; object-fit: cover; border-radius: 16px; margin-bottom: 12px; }
+        .search-input { background: white; border: 1px solid var(--accent-secondary); border-radius: 14px; padding: 10px 16px; width: 100%; max-width: 320px; font-size: 14px; outline: none; transition: border-color 0.3s; }
+        .search-input:focus { border-color: var(--accent-primary); }
     </style>
 </head>
 <body class="min-h-screen">
-
-    <div class="platform-shell">
-        <header class="top-nav px-8 py-4 mb-12 flex items-center justify-between sticky top-6 z-50">
-            <div class="flex items-center gap-4">
-                <div class="w-10 h-10 rounded-xl bg-[#3a67ab] flex items-center justify-center text-white font-black shadow-lg">HZ</div>
-                <div>
-                    <h1 class="text-lg font-bold text-slate-800">上城区政协界别工作台</h1>
-                    <p class="text-[10px] font-bold text-[#3a67ab] tracking-widest uppercase">协商在上城，同心向未来</p>
-                </div>
-            </div>
-            
-            <nav class="flex items-center gap-2 text-sm font-semibold text-slate-500">
-                <div class="nav-item active" onclick="switchTab('sectors', this)">界别概览</div>
-                <div class="nav-item" onclick="switchTab('plans', this)">年度计划</div>
-                <div class="nav-item" onclick="switchTab('studios', this)">委员工作室</div>
-                <div class="nav-item" onclick="switchTab('activities', this)">履职大厅</div>
-            </nav>
-
-            <div class="hidden md:block">
-                <span class="px-4 py-2 bg-slate-100 rounded-full text-[10px] font-bold text-slate-400 uppercase">V3.0 Smart Matrix</span>
-            </div>
-        </header>
-
-        <div id="main-content">
-            <h2 id="view-title" class="text-3xl font-black text-slate-900 mb-10 flex items-center gap-4">
-                全区界别矩阵
-                <span class="h-px flex-1 bg-slate-100"></span>
-            </h2>
-            <div id="data-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
-                <!-- JS Inject -->
-            </div>
+<div class="platform-shell">
+<header class="top-nav px-8 py-4 mb-8 flex items-center justify-between sticky top-6 z-50">
+    <div class="flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl bg-[#3a67ab] flex items-center justify-center text-white font-black shadow-lg text-sm">HZ</div>
+        <div>
+            <h1 class="text-lg font-bold text-slate-800">上城区政协界别工作台</h1>
+            <p class="text-[10px] font-bold text-[#3a67ab] tracking-widest">协商在上城，同心向未来</p>
         </div>
     </div>
+    <nav class="flex items-center gap-2 text-sm font-semibold text-slate-500">
+        <div class="nav-item active" onclick="switchTab('sectors', this)">界别概览</div>
+        <div class="nav-item" onclick="switchTab('plans', this)">年度计划</div>
+        <div class="nav-item" onclick="switchTab('studios', this)">委员工作室</div>
+        <div class="nav-item" onclick="switchTab('activities', this)">履职照片墙</div>
+        <div class="nav-item" onclick="switchTab('streets', this)">街道小组</div>
+    </nav>
+    <div class="hidden md:flex items-center gap-3">
+        <span class="px-4 py-2 bg-slate-100 rounded-full text-[10px] font-bold text-slate-400">2026 Dashboard</span>
+    </div>
+</header>
+<div id="stats-bar" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"></div>
+<div id="main-content">
+    <div class="flex items-center justify-between mb-8">
+        <h2 id="view-title" class="text-3xl font-black text-slate-900 flex items-center gap-4">
+            全区界别矩阵
+            <span class="h-px flex-1 bg-slate-100 hidden md:block"></span>
+        </h2>
+        <input id="search-input" class="search-input hidden" placeholder="搜索..." oninput="doSearch()">
+    </div>
+    <div id="data-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20"></div>
+</div>
+</div>
 
-    <!-- Modal -->
-    <div id="modal-container" class="detail-overlay" onclick="closeModal()">
-        <div class="detail-content p-12" onclick="event.stopPropagation()">
-            <div class="flex justify-between items-start mb-10">
-                <div id="modal-header">
-                    <div id="modal-tag" class="glass-tag mb-4 inline-block tracking-widest uppercase">DETAIL INFO</div>
-                    <h2 id="modal-title" class="text-4xl font-extrabold text-slate-900">详情</h2>
-                </div>
-                <button onclick="closeModal()" class="w-12 h-12 rounded-full border border-slate-100 flex items-center justify-center text-2xl hover:bg-slate-50">&times;</button>
+<div id="modal-container" class="detail-overlay" onclick="closeModal()">
+    <div class="detail-content p-8 md:p-12" onclick="event.stopPropagation()">
+        <div class="flex justify-between items-start mb-8">
+            <div id="modal-header">
+                <div id="modal-tag" class="glass-tag mb-3 inline-block tracking-widest"></div>
+                <h2 id="modal-title" class="text-4xl font-extrabold text-slate-900"></h2>
             </div>
-            <div id="modal-body" class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <!-- Content -->
+            <button onclick="closeModal()" class="w-12 h-12 rounded-full border border-slate-100 flex items-center justify-center text-2xl hover:bg-slate-50 flex-shrink-0">&times;</button>
+        </div>
+        <div id="modal-body" class="grid grid-cols-1 lg:grid-cols-2 gap-12"></div>
+    </div>
+</div>
+
+<div id="lightbox" class="detail-overlay" style="z-index:200;" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="" style="max-width:90vw;max-height:90vh;border-radius:24px;object-fit:contain;" onclick="event.stopPropagation()">
+</div>
+
+<script>
+
+const BASE_PATH = "../data/";
+const sectors = [
+  {
+    "id": "01",
+    "name": "中共",
+    "leader": "孙国方、王良约",
+    "desc": "充分发挥“关键少数”作用，带头调查研究",
+    "content": "聚焦产业突破和人才引育，助力上城经济高质量发展。密切联系界别群众，积极建言献策。",
+    "members": "孙国方,黄爱芳,叶榕,范国良,王良约,查靖,方蔚军,许康波,李伟达,陆雯,郑斐尹,章海燕,黎洁,徐洁,许国伟,杨洁,陈蕴涵,周媛媛,潘克倾,冷晓辉",
+    "photos": [
+      "3. 界别基本情况/活动照片/1中共/2022.12.06 中共界别委员交流活动.webp",
+      "3. 界别基本情况/活动照片/1中共/2024.02.02 区政协一届三次会议中共界别小组讨论会.webp"
+    ]
+  },
+  {
+    "id": "02",
+    "name": "无党派",
+    "leader": "范国良",
+    "desc": "已成立5个委员工作室",
+    "content": "聚焦公共法律服务和中央创新区建设，已成立“无党派委员工作室”、“老字号工作室”等5个委员工作室，积极服务区域发展。",
+    "members": "陈奕东,沈波,朱嫣红,张含,陈贺梅,罗旭峰,蔡旭荣,施俞刚,韩霄波,丁黎,陈娟,俞仲凯,蒋骥,孙文祥,何晓菲,沈旭欣,屠明珏,童雁汝南,虞静,应啸",
+    "photos": [
+      "3. 界别基本情况/活动照片/2无党派/参加老旧小区物业提质协商议事.webp",
+      "3. 界别基本情况/活动照片/2无党派/无党派界别赴区司法局调研涉外法律服务有关工作 .webp",
+      "3. 界别基本情况/活动照片/2无党派/范国良副主席为老字号工作室揭牌.webp",
+      "3. 界别基本情况/活动照片/2无党派/范国良副主席参加无党派界别“洞悉当前宏观经济态势与战略投资机遇”主题分享活动.webp",
+      "3. 界别基本情况/活动照片/2无党派/重阳节开展为老服务.webp"
+    ]
+  },
+  {
+    "id": "03",
+    "name": "共青团、青联",
+    "leader": "叶榕",
+    "desc": "打造“青尚共议”品牌",
+    "content": "聚焦青年群众关心热点，在商业街区、创业园区设立“青年观察点”，发挥青年委员主体作用。",
+    "members": "郑斐尹,华剑波,葛佳轩,陈翔,钱云忠,赵群伟,言妍,高艳,刘元凯,宫旭,盛昕炜,尹兆青,陆涛,刘晓,张瑞旭,盛史超,尚晓红,冯敏,韩新宇",
+    "photos": [
+      "3. 界别基本情况/活动照片/3共青团、青联/IMG_20240531_160417.webp",
+      "3. 界别基本情况/活动照片/3共青团、青联/mmexport1717153124428.webp",
+      "3. 界别基本情况/活动照片/3共青团、青联/mmexport1717153126963.webp",
+      "3. 界别基本情况/活动照片/3共青团、青联/mmexport1717153128393.webp"
+    ]
+  },
+  {
+    "id": "04",
+    "name": "工会",
+    "leader": "洪明",
+    "desc": "上工大讲堂、职工毅行",
+    "content": "开展“上工大讲堂”、“美丽大讲堂”和职工毅行大会等活动，服务广大职工群众。",
+    "members": "蔡肇颖,徐洁,许国伟,杨洁,陈蕴涵,周媛媛,潘克倾,冷晓辉",
+    "photos": [
+      "3. 界别基本情况/活动照片/4工会/2024年5月6日 上工大讲堂.webp",
+      "3. 界别基本情况/活动照片/4工会/5月25日2024年上城区职工毅行大会.webp",
+      "3. 界别基本情况/活动照片/4工会/5月25日2024年上城区职工毅行大会2.webp"
+    ]
+  },
+  {
+    "id": "05",
+    "name": "妇联",
+    "leader": "吕仕琼",
+    "desc": "“品宋韵文化 做精致丽人”",
+    "content": "聚焦妇女儿童权益保障，开展“品宋韵文化 做精致丽人”三八节活动，调研白马庄巾帼共富工坊。",
+    "members": "吕仕琼,高艳霞",
+    "photos": [
+      "3. 界别基本情况/活动照片/5妇联/妇联界别召集人吕仕琼开展“七一”慰问.webp",
+      "3. 界别基本情况/活动照片/5妇联/妇联界别开展“品宋韵文化  做精致丽人”三八节活动.webp",
+      "3. 界别基本情况/活动照片/5妇联/妇联界别调研牵头人高艳霞带队调研白马庄巾帼共富工坊，为调研报告积累素材.webp",
+      "3. 界别基本情况/活动照片/5妇联/政协一届三次会议，妇联界别民宗界别合影.webp"
+    ]
+  },
+  {
+    "id": "06",
+    "name": "工商联",
+    "leader": "洪明",
+    "desc": "营商环境调研、企业互学",
+    "content": "开展营商环境专项调研协商，组织委员企业现代治理互学活动，助力民营经济高质量发展。",
+    "members": "胡丽亚,王勇,李伟达,吴利泽,陈洁,胡巍,罗旭峰,梁向明,王容峰,邹欢金,陈仕会,陈星,楼数,张勇,毛雪波,吕昀,潘丽华,周立钢,高杰,骆志明",
+    "photos": [
+      "3. 界别基本情况/活动照片/6工商联/主体培训班合影.webp",
+      "3. 界别基本情况/活动照片/6工商联/深圳浙江商会考察钱二图片.webp",
+      "3. 界别基本情况/活动照片/6工商联/组织民企500强部分人员参观考察钱二.webp"
+    ]
+  },
+  {
+    "id": "07",
+    "name": "科技、科协",
+    "leader": "洪明",
+    "desc": "科创赋能、改革提能",
+    "content": "聚焦科创赋能和改革提能，推进科技创新平台建设，推进OPC发展调研和产业创新融合协商。",
+    "members": "方文伟,聂建波,胡丽亚,汪利民,张建平,陈屹一,陈明晖,葛芳民,韩霄波,潘丽华,王尉,陈娟,李友银,汪丹凤,聂世元,聂明军,董娜,黄晓煌,杨冬强,方晓阳",
+    "photos": [
+      "3. 界别基本情况/活动照片/7科技、科协/mmexport1711700143984.webp",
+      "3. 界别基本情况/活动照片/7科技、科协/mmexport1711702029812.webp"
+    ]
+  },
+  {
+    "id": "08",
+    "name": "侨、台",
+    "leader": "陆雯",
+    "desc": "“侨助发展 AI赋能经济”",
+    "content": "开展“侨助发展 AI赋能经济”走进群核科技、“融通世界 文化互鉴”等主题活动和专题协商会。",
+    "members": "陆雯,陈奕东,沈波,朱嫣红,张含,陈贺梅,罗旭峰,蔡旭荣,施俞刚,韩霄波",
+    "photos": [
+      "3. 界别基本情况/活动照片/8侨、台/WechatIMG31.webp",
+      "3. 界别基本情况/活动照片/8侨、台/WechatIMG32.webp",
+      "3. 界别基本情况/活动照片/8侨、台/WechatIMG33.webp"
+    ]
+  },
+  {
+    "id": "09",
+    "name": "新闻文体",
+    "leader": "方蔚军",
+    "desc": "宋韵文化“两创”交流",
+    "content": "开展上城区人文经济创新发展专题协商，组织宋韵文化“两创”交流分享活动，参观亚运会博物馆。",
+    "members": "方蔚军,赵群伟,言妍,高艳,刘元凯,宫旭,盛昕炜,尹兆青,陆涛,刘晓,张瑞旭",
+    "photos": [
+      "3. 界别基本情况/活动照片/9新闻文体/2023年8月，参观亚运会博物馆.webp",
+      "3. 界别基本情况/活动照片/9新闻文体/2023年8月，参观亚运会博物馆2.webp"
+    ]
+  },
+  {
+    "id": "10",
+    "name": "经济",
+    "leader": "胡丽亚",
+    "desc": "十五五开局、创新高地调研",
+    "content": "由企业家、商贸等领域委员组成。开展“十五五”经济高质量发展专题协商和创新高地专题调研活动。",
+    "members": "胡丽亚,王勇,李伟达,吴利泽,陈洁,胡巍,罗旭峰,梁向明,王容峰,邹欢金,陈仕会,陈星,楼数,张勇,毛雪波,吕昀,潘丽华,周立钢,高杰,骆志明",
+    "photos": [
+      "3. 界别基本情况/活动照片/10经济/353cd94f8a4dc02a2e821a5ba8ab043.webp",
+      "3. 界别基本情况/活动照片/10经济/619ee9289835d103c435f174c1e0cff.webp"
+    ]
+  },
+  {
+    "id": "11",
+    "name": "环境资源和农业",
+    "leader": "熊义勤",
+    "desc": "城乡融合、城市更新",
+    "content": "组织“城村共生绿美共富”城乡融合体验实践分享会和城市更新盘活存量建筑举措协商会。",
+    "members": "熊义勤,骆鉴湖",
+    "photos": [
+      "3. 界别基本情况/活动照片/11环境资源和农业/3f7343aec8231bde22a668a4e17d149a.webp",
+      "3. 界别基本情况/活动照片/11环境资源和农业/42e4ebbcbe8d12cf29a4876baecaca2a.webp",
+      "3. 界别基本情况/活动照片/11环境资源和农业/82cf6d0fbeb3c41a443b837ff9927617.webp",
+      "3. 界别基本情况/活动照片/11环境资源和农业/db8232e0c5d40a94e9fbcf8c9dfaee8.webp"
+    ]
+  },
+  {
+    "id": "12",
+    "name": "教育",
+    "leader": "许康波",
+    "desc": "青少年模拟政协活动",
+    "content": "组织青少年模拟政协委员活动和教育系统政协委员座谈会，关注教育事业发展。",
+    "members": "许康波,李伟达,陆雯,郑斐尹,章海燕,黎洁,徐洁,许国伟,杨洁,陈蕴涵",
+    "photos": [
+      "3. 界别基本情况/活动照片/12教育/2f41c28d4b53804fb60bb6ef196c54a4.webp",
+      "3. 界别基本情况/活动照片/12教育/IMG_2126.webp"
+    ]
+  },
+  {
+    "id": "13",
+    "name": "医卫",
+    "leader": "李伟达",
+    "desc": "惠民健体服务、名中医讲座",
+    "content": "开展界别委员惠民健体服务，包括名中医讲座、适宜技术应用、义诊等，组织医卫界别协商议事会。",
+    "members": "李伟达,陆雯,郑斐尹,章海燕,黎洁,徐洁,许国伟,杨洁,陈蕴涵,周媛媛",
+    "photos": [
+      "3. 界别基本情况/活动照片/13医卫/IMG20240527105848.webp",
+      "3. 界别基本情况/活动照片/13医卫/IMG20240527161315.webp",
+      "3. 界别基本情况/活动照片/13医卫/IMG20240527170959.webp",
+      "3. 界别基本情况/活动照片/13医卫/IMG_0853.HEIC.webp"
+    ]
+  },
+  {
+    "id": "14",
+    "name": "社会福利和保障",
+    "leader": "吴国庆",
+    "desc": "爱心服务、义卖活动",
+    "content": "联动邵逸夫医院开展“以爱之名”残疾人画展及手工艺品义卖活动，组织爱心志愿服务。",
+    "members": "吴国庆,蔡肇颖,徐洁,许国伟,杨洁,陈蕴涵,周媛媛,潘克倾,冷晓辉",
+    "photos": [
+      "3. 界别基本情况/活动照片/14社会福利和保障/区政府副主席范国良与政协委员参观社会福利和保障界别委员工作室.webp",
+      "3. 界别基本情况/活动照片/14社会福利和保障/社会福利和保障界别委员联系界别群众参加党纪学习教育.webp",
+      "3. 界别基本情况/活动照片/14社会福利和保障/联动邵逸夫医院，开展“以爱之名”等残疾人画展及手工艺品义卖活动.webp"
+    ]
+  },
+  {
+    "id": "15",
+    "name": "民族、宗教",
+    "leader": "范国良",
+    "desc": "红十字博爱周、立面整治",
+    "content": "参与红十字会博爱周市集活动，组织居民楼外立面整治协调会等专题协商。",
+    "members": "范国良,王良约,查靖,方蔚军,许康波,李伟达,陆雯,郑斐尹",
+    "photos": [
+      "3. 界别基本情况/活动照片/15民宗/IMG_20240315_085702.webp",
+      "3. 界别基本情况/活动照片/15民宗/IMG_20240618_095251.webp"
+    ]
+  },
+  {
+    "id": "16",
+    "name": "特邀",
+    "leader": "方蔚军",
+    "desc": "垃圾分类、道路体检",
+    "content": "组织区垃圾分类工作专题协商和城市道路健康体检观察主题活动，开展读书会、现场调研等。",
+    "members": "方蔚军,查靖,徐洁,章海燕,黎洁,许国伟,杨洁,陈蕴涵,周媛媛,潘克倾,冷晓辉",
+    "photos": [
+      "3. 界别基本情况/活动照片/16特邀/与商户开展座谈.webp",
+      "3. 界别基本情况/活动照片/16特邀/开展读书会.webp",
+      "3. 界别基本情况/活动照片/16特邀/现场调研德寿宫附近停车泊位情况.webp",
+      "3. 界别基本情况/活动照片/16特邀/现场调研湖滨步行街营商环境提升项目.webp",
+      "3. 界别基本情况/活动照片/16特邀/针对德寿宫周边一件事情况进行座谈.webp"
+    ]
+  }
+];
+const plans2026 = [
+  {
+    "sector": "中共界别",
+    "activity": "国际人才交流活动",
+    "type": "主题活动",
+    "time": "1月",
+    "month": 1
+  },
+  {
+    "sector": "中共界别",
+    "activity": "加强人才引育，助推CID建设专题协商会",
+    "type": "专题协商",
+    "time": "9月",
+    "month": 9
+  },
+  {
+    "sector": "无党派人士界别",
+    "activity": "“她”力量·在路上——与新就业女性共庆妇女节主题沙龙",
+    "type": "主题沙龙",
+    "time": "3月",
+    "month": 3
+  },
+  {
+    "sector": "无党派人士界别",
+    "activity": "界别委员公益惠民活动",
+    "type": "公益咨询服务",
+    "time": "5月",
+    "month": 5
+  },
+  {
+    "sector": "无党派人士界别",
+    "activity": "无党派界别协商议事会",
+    "type": "专题协商",
+    "time": "9月",
+    "month": 9
+  },
+  {
+    "sector": "共青团、青联界别",
+    "activity": "送福送春联活动",
+    "type": "惠民服务",
+    "time": "1月",
+    "month": 1
+  },
+  {
+    "sector": "共青团、青联界别",
+    "activity": "“书香润初心·青年话担当”读书交流会",
+    "type": "主题活动",
+    "time": "4月",
+    "month": 4
+  },
+  {
+    "sector": "工会界别",
+    "activity": "“铜韵传承·锻打时光”铜雕艺术体验日活动",
+    "type": "互动体验",
+    "time": "4月",
+    "month": 4
+  },
+  {
+    "sector": "工会界别",
+    "activity": "上城区职工毅行活动",
+    "type": "主题活动",
+    "time": "4月",
+    "month": 4
+  },
+  {
+    "sector": "妇联界别",
+    "activity": "“品宋韵·话传承·谋创新” 文化专题活动",
+    "type": "主题活动",
+    "time": "5月",
+    "month": 5
+  },
+  {
+    "sector": "妇联界别",
+    "activity": "金融赋能发展协商会",
+    "type": "专题协商",
+    "time": "9月",
+    "month": 9
+  },
+  {
+    "sector": "工商联界别",
+    "activity": "营商环境专项调研协商",
+    "type": "专题协商",
+    "time": "7月",
+    "month": 7
+  },
+  {
+    "sector": "工商联界别",
+    "activity": "委员企业现代治理互学活动",
+    "type": "主题活动",
+    "time": "12月",
+    "month": 12
+  },
+  {
+    "sector": "科技、科协界别",
+    "activity": "开展关于推进OPC发展的调研",
+    "type": "专题调研",
+    "time": "3月",
+    "month": 3
+  },
+  {
+    "sector": "科技、科协界别",
+    "activity": "关于加快推进科技创新和产业创新深度融合的协商会",
+    "type": "专题协商",
+    "time": "10月",
+    "month": 10
+  },
+  {
+    "sector": "侨、台界别",
+    "activity": "“侨助发展 AI赋能经济”——走进群核科技",
+    "type": "主题活动",
+    "time": "4月",
+    "month": 4
+  },
+  {
+    "sector": "侨、台界别",
+    "activity": "“融通世界 文化互鉴”活动",
+    "type": "主题活动",
+    "time": "6月",
+    "month": 6
+  },
+  {
+    "sector": "侨、台界别",
+    "activity": "侨助发展专题协商会",
+    "type": "专题协商",
+    "time": "9月",
+    "month": 9
+  },
+  {
+    "sector": "新闻文体界别",
+    "activity": "上城区人文经济创新发展专题协商会",
+    "type": "专题协商",
+    "time": "8月",
+    "month": 8
+  },
+  {
+    "sector": "新闻文体界别",
+    "activity": "宋韵文化“两创”交流分享活动",
+    "type": "参观交流",
+    "time": "10月",
+    "month": 10
+  },
+  {
+    "sector": "经济界别",
+    "activity": "开局“十五五”——经济高质量发展专题协商会",
+    "type": "专题协商",
+    "time": "4月",
+    "month": 4
+  },
+  {
+    "sector": "经济界别",
+    "activity": "创新高地专题调研活动",
+    "type": "主题活动",
+    "time": "9月",
+    "month": 9
+  },
+  {
+    "sector": "环境资源和农业界别",
+    "activity": "“城村共生绿美共富”城乡融合体验实践分享会",
+    "type": "主题活动",
+    "time": "4月",
+    "month": 4
+  },
+  {
+    "sector": "环境资源和农业界别",
+    "activity": "城市更新盘活存量建筑的举措协商会",
+    "type": "专题协商",
+    "time": "10月",
+    "month": 10
+  },
+  {
+    "sector": "教育界别",
+    "activity": "青少年模拟政协委员活动",
+    "type": "主题活动",
+    "time": "9月",
+    "month": 9
+  },
+  {
+    "sector": "教育界别",
+    "activity": "教育系统政协委员座谈会",
+    "type": "专题协商",
+    "time": "11月",
+    "month": 11
+  },
+  {
+    "sector": "医卫界别",
+    "activity": "界别委员惠民健体服务（名中医讲座、适宜技术应用、义诊）",
+    "type": "惠民服务",
+    "time": "5月",
+    "month": 5
+  },
+  {
+    "sector": "医卫界别",
+    "activity": "医卫界别协商议事会",
+    "type": "专题协商",
+    "time": "9月",
+    "month": 9
+  },
+  {
+    "sector": "社会福利和保障界别",
+    "activity": "爱心服务活动",
+    "type": "志愿服务",
+    "time": "6月",
+    "month": 6
+  },
+  {
+    "sector": "社会福利和保障界别",
+    "activity": "爱心义卖活动",
+    "type": "爱心义卖",
+    "time": "11月",
+    "month": 11
+  },
+  {
+    "sector": "民族、宗教界别",
+    "activity": "红十字会博爱周市集",
+    "type": "主题活动",
+    "time": "5月",
+    "month": 5
+  },
+  {
+    "sector": "民族、宗教界别",
+    "activity": "居民楼外立面整治协调会",
+    "type": "专题协商",
+    "time": "8月",
+    "month": 8
+  },
+  {
+    "sector": "特邀界别",
+    "activity": "区垃圾分类工作专题协商",
+    "type": "专题协商",
+    "time": "5月",
+    "month": 5
+  },
+  {
+    "sector": "特邀界别",
+    "activity": "城市道路健康体检观察主题活动",
+    "type": "主题活动",
+    "time": "9月",
+    "month": 9
+  }
+];
+const studios = [
+  {
+    "id": 1,
+    "name": "政协湖滨小组委员工作室",
+    "leader": "查靖",
+    "address": "上城区羊血弄10号",
+    "rating": 5,
+    "feature": "数智民生协商"
+  },
+  {
+    "id": 2,
+    "name": "政协清波小组委员工作室",
+    "leader": "徐洁",
+    "address": "上城区清波街道蔡官巷35号三楼",
+    "rating": 5,
+    "feature": "文化旅游融合"
+  },
+  {
+    "id": 3,
+    "name": "政协小营小组委员工作室",
+    "leader": "冷晓辉",
+    "address": "杭州市上城区建国南路98号",
+    "rating": 4,
+    "feature": "基层治理协商"
+  },
+  {
+    "id": 4,
+    "name": "政协望江小组委员工作室",
+    "leader": "毛静波",
+    "address": "上城区翡翠海岸1幢6号",
+    "rating": 4,
+    "feature": "社区服务"
+  },
+  {
+    "id": 5,
+    "name": "政协南星小组委员工作室",
+    "leader": "游广敏",
+    "address": "上城区目术塘创意园2号楼7楼",
+    "rating": 4,
+    "feature": "创意产业协商"
+  },
+  {
+    "id": 6,
+    "name": "紫阳街道“三一”委员工作室",
+    "leader": "王盈",
+    "address": "上城区金钗袋巷79号",
+    "rating": 5,
+    "feature": "基层自治领跑"
+  },
+  {
+    "id": 7,
+    "name": "闸弄口街道“基层治理”委员工作室",
+    "leader": "祝文雅",
+    "address": "上城区闸弄口街道党群服务中心",
+    "rating": 4,
+    "feature": "基层治理"
+  },
+  {
+    "id": 8,
+    "name": "政协凯旋小组委员工作室",
+    "leader": "金志伟",
+    "address": "上城区凤起东路127号",
+    "rating": 4,
+    "feature": "社区协商"
+  },
+  {
+    "id": 9,
+    "name": "采荷街道“幸福19”委员工作室",
+    "leader": "赵丹晨",
+    "address": "上城区采荷街道洁莲社区",
+    "rating": 4,
+    "feature": "疗愈经济"
+  },
+  {
+    "id": 10,
+    "name": "政协四季青小组委员工作室",
+    "leader": "李岗",
+    "address": "上城区民心路280号平安金融中心B座3楼",
+    "rating": 5,
+    "feature": "投融资协商"
+  },
+  {
+    "id": 11,
+    "name": "政协笕桥小组委员工作室",
+    "leader": "阮骏",
+    "address": "上城区笕桥街道政协会议室",
+    "rating": 4,
+    "feature": "街道协商"
+  },
+  {
+    "id": 12,
+    "name": "政协彭埠小组委员工作室",
+    "leader": "任渊",
+    "address": "上城区S2杭甬高速附近罗家老宅",
+    "rating": 5,
+    "feature": "非遗传承体验"
+  },
+  {
+    "id": 13,
+    "name": "政协九堡小组委员工作室",
+    "leader": "胡建清",
+    "address": "上城区九乔街与杭乔路交叉口",
+    "rating": 4,
+    "feature": "社区协商"
+  },
+  {
+    "id": 14,
+    "name": "政协丁兰小组委员工作室",
+    "leader": "倪勇卿",
+    "address": "上城区临丁路699号丁兰街道办事处5号楼4楼",
+    "rating": 4,
+    "feature": "街道协商"
+  },
+  {
+    "id": 15,
+    "name": "张瑞旭委员工作室",
+    "leader": "张瑞旭",
+    "address": "上城区凯旋街道凯益荟208室",
+    "rating": 5,
+    "feature": "跨代共融"
+  },
+  {
+    "id": 16,
+    "name": "缪渭川委员工作室",
+    "leader": "缪渭川",
+    "address": "上城区凯旋街道南肖埠社区",
+    "rating": 4,
+    "feature": "法律服务"
+  },
+  {
+    "id": 17,
+    "name": "虞军红委员工作室",
+    "leader": "虞军红",
+    "address": "上城区运新花苑运新社区",
+    "rating": 4,
+    "feature": "社区服务"
+  },
+  {
+    "id": 18,
+    "name": "商业服务智库委员工作室",
+    "leader": "姚华俊、黄晓芹",
+    "address": "上城区新业路8号UDC时代大厦3楼",
+    "rating": 4,
+    "feature": "商业智库"
+  },
+  {
+    "id": 19,
+    "name": "俞富康宋韵文化委员工作室",
+    "leader": "俞富康",
+    "address": "上城区凯旋路151号",
+    "rating": 5,
+    "feature": "国际艺术交流"
+  },
+  {
+    "id": 20,
+    "name": "爱馨文化公益委员工作室",
+    "leader": "杨洁",
+    "address": "上城区南山路198号（杭州书房）",
+    "rating": 5,
+    "feature": "文化公益"
+  },
+  {
+    "id": 21,
+    "name": "“文润童心”委员工作室",
+    "leader": "周媛媛",
+    "address": "杭州市上城区清波街道府学巷8号",
+    "rating": 4,
+    "feature": "传统文化启蒙"
+  },
+  {
+    "id": 22,
+    "name": "“老爸好商量”委员工作室",
+    "leader": "俞富根",
+    "address": "上城区四宜路180号",
+    "rating": 4,
+    "feature": "家庭教育"
+  },
+  {
+    "id": 23,
+    "name": "侨见未来委员工作室",
+    "leader": "胡晓敏",
+    "address": "上城区兰巷101-104号（山蜂书房）",
+    "rating": 4,
+    "feature": "侨界协商"
+  },
+  {
+    "id": 24,
+    "name": "宋韵老字号委员工作室",
+    "leader": "屠明珏",
+    "address": "上城区江城路865号",
+    "rating": 4,
+    "feature": "老字号传承"
+  },
+  {
+    "id": 25,
+    "name": "幸福邻里委员工作室",
+    "leader": "尹兆青",
+    "address": "上城区闸弄口街道红梅社区",
+    "rating": 4,
+    "feature": "邻里协商"
+  },
+  {
+    "id": 26,
+    "name": "大健康委员工作室",
+    "leader": "谢慧淼",
+    "address": "上城区凯旋路与凯林巷交叉口凯西社区",
+    "rating": 5,
+    "feature": "健康宣教义诊"
+  },
+  {
+    "id": 27,
+    "name": "大成委员工作室",
+    "leader": "陈磊",
+    "address": "上城区钱江路1366号华润大厦A座18层",
+    "rating": 4,
+    "feature": "法律咨询"
+  },
+  {
+    "id": 28,
+    "name": "“邻聚力”委员工作室",
+    "leader": "余丹凤",
+    "address": "上城区凤起东路203号中豪五福天地B座2幢21层",
+    "rating": 5,
+    "feature": "公益慈善"
+  },
+  {
+    "id": 29,
+    "name": "东港社区委员工作室",
+    "leader": "蒋平樑",
+    "address": "上城区笕桥街道东港社区",
+    "rating": 4,
+    "feature": "社区服务"
+  },
+  {
+    "id": 30,
+    "name": "建和社区委员工作室",
+    "leader": "周建卫",
+    "address": "上城区彭埠街道建和社区",
+    "rating": 5,
+    "feature": "独居老人关怀"
+  },
+  {
+    "id": 31,
+    "name": "杨柳郡社区委员工作室",
+    "leader": "王鹏",
+    "address": "上城区九和路660号绿城杨柳郡",
+    "rating": 4,
+    "feature": "青年社区"
+  },
+  {
+    "id": 32,
+    "name": "长睦幸福湾委员工作室",
+    "leader": "龚云玉",
+    "address": "上城区丁兰街道长睦苑社区",
+    "rating": 4,
+    "feature": "社区服务"
+  },
+  {
+    "id": 33,
+    "name": "同心·共富委员工作室",
+    "leader": "吴韵",
+    "address": "上城区丁兰街道皋城村文化礼堂",
+    "rating": 5,
+    "feature": "乡村振兴"
+  },
+  {
+    "id": 34,
+    "name": "乐动新声委员工作室",
+    "leader": "俞宙",
+    "address": "上城区金峰大厦1503室",
+    "rating": 3,
+    "feature": "音乐文化"
+  },
+  {
+    "id": 35,
+    "name": "茗荟聚智委员工作室",
+    "leader": "王容峰",
+    "address": "上城区大井巷30-4号",
+    "rating": 4,
+    "feature": "茶韵议事"
+  },
+  {
+    "id": 36,
+    "name": "上城区政协无党派界别委员工作室",
+    "leader": "凌栋",
+    "address": "上城区凯旋路247-1号4楼",
+    "rating": 4,
+    "feature": "无党派协商"
+  },
+  {
+    "id": 37,
+    "name": "上城区政协工会界别委员工作室",
+    "leader": "蔡肇颖",
+    "address": "上城区工人文化宫（太平门直街458号）",
+    "rating": 4,
+    "feature": "美丽大讲堂"
+  },
+  {
+    "id": 38,
+    "name": "上城区政协社会福利和保障界别委员工作室",
+    "leader": "吴国庆",
+    "address": "上城区凯旋路125号（特有爱·幸福体验馆）",
+    "rating": 5,
+    "feature": "残疾人之家"
+  },
+  {
+    "id": 39,
+    "name": "有意思委员工作室",
+    "leader": "方晓阳",
+    "address": "上城区复兴南街130号",
+    "rating": 4,
+    "feature": "民生座谈"
+  },
+  {
+    "id": 40,
+    "name": "春泥委员工作室",
+    "leader": "沈春妮",
+    "address": "上城区采荷路34号社会组织服务中心5楼",
+    "rating": 5,
+    "feature": "迎新送福"
+  },
+  {
+    "id": 41,
+    "name": "两岸一家亲委员工作室",
+    "leader": "陆雯",
+    "address": "上城区解放路189号-2",
+    "rating": 4,
+    "feature": "两岸交流"
+  },
+  {
+    "id": 42,
+    "name": "“视觉之思”委员工作室",
+    "leader": "何晓菲",
+    "address": "上城区虎玉路16-18号",
+    "rating": 4,
+    "feature": "视觉文化"
+  },
+  {
+    "id": 43,
+    "name": "“育共体 阳光行”委员工作室",
+    "leader": "王梦婷",
+    "address": "上城区景芳三区58幢新社区邻里中心",
+    "rating": 5,
+    "feature": "小小政协委员"
+  },
+  {
+    "id": 44,
+    "name": "非遗委员工作室",
+    "leader": "胡志强",
+    "address": "上城区大井巷55号",
+    "rating": 4,
+    "feature": "非遗传承"
+  },
+  {
+    "id": 45,
+    "name": "乐医汇委员工作室",
+    "leader": "潘乐屹",
+    "address": "上城区同协路1279号西子智慧产业园8号楼401室",
+    "rating": 4,
+    "feature": "医疗健康"
+  },
+  {
+    "id": 46,
+    "name": "全民阅读委员工作室",
+    "leader": "赵群伟",
+    "address": "上城区中山中路6号",
+    "rating": 5,
+    "feature": "宋韵美学"
+  },
+  {
+    "id": 47,
+    "name": "健康九久委员工作室",
+    "leader": "李祖胜",
+    "address": "上城区九堡街道蓝桥卫生服务站",
+    "rating": 4,
+    "feature": "健康普及"
+  },
+  {
+    "id": 48,
+    "name": "智汇钱潮委员工作室",
+    "leader": "沈波",
+    "address": "上城区小院书房",
+    "rating": 4,
+    "feature": "文化沙龙"
+  },
+  {
+    "id": 49,
+    "name": "环境资源和农业界别委员工作室",
+    "leader": "熊义勤、骆鉴湖",
+    "address": "浙江大学华家池校区新农村杂志3楼",
+    "rating": 4,
+    "feature": "城乡融合"
+  },
+  {
+    "id": 50,
+    "name": "漱玉集委员工作室",
+    "leader": "王盈",
+    "address": "上城区紫阳街道闻潮路77号",
+    "rating": 5,
+    "feature": "文化传承"
+  }
+];
+const activities = [
+  {
+    "title": "学习考察新质生产力",
+    "unit": "政协湖滨小组委员工作室",
+    "img": "5. 委员履职平台/1-政协湖滨小组委员工作室-学习考察新质生产力一-万事利科创中心.webp"
+  },
+  {
+    "title": "文化送福联动公益",
+    "unit": "政协清波小组委员工作室",
+    "img": "5. 委员履职平台/2-政协清波小组委员工作室-幸福清波，文化送福，联动中国美院为清波派出所、禁毒所、清波居民送新年祝福.webp"
+  },
+  {
+    "title": "领跑基层自治之路",
+    "unit": "政协紫阳“三一”委员工作室",
+    "img": "5. 委员履职平台/3-政协紫阳“三一”委员工作室-践行“委员说·委员做”，锚定“两个先行”目标，领跑“基层白治”之路.webp"
+  },
+  {
+    "title": "疗愈经济分享体验会",
+    "unit": "采荷街道“幸福19”委员工作室",
+    "img": "5. 委员履职平台/4-采荷街道“幸福19”委员工作室-“疗愈经济分享体验会”活动.webp"
+  },
+  {
+    "title": "投科技专题协商会",
+    "unit": "政协四季青小组委员工作室",
+    "img": "5. 委员履职平台/5-政协四季青小组委员工作室-市区县三级联动，召开“投早投小投科技”专题协商会.webp"
+  },
+  {
+    "title": "非遗制作体验活动",
+    "unit": "政协彭埠小组委员工作室",
+    "img": "5. 委员履职平台/6-政协彭埠小组委员工作室-邀请非遗传承人开展非遗制作体验活动.webp"
+  },
+  {
+    "title": "开展美丽大讲堂",
+    "unit": "工会界别委员工作室",
+    "img": "5. 委员履职平台/7-工会界别委员工作室-开展“美丽大讲堂”活动.webp"
+  },
+  {
+    "title": "残疾人之家义卖",
+    "unit": "社会福利和保障界别委员工作室",
+    "img": "5. 委员履职平台/8-社会福利和保障界别委员工作室-残疾人之家的义卖活动.webp"
+  },
+  {
+    "title": "传承乡村传统文化",
+    "unit": "“文润童心”委员工作室",
+    "img": "5. 委员履职平台/9-“文润童心”委员工作室-传承和弘扬中华优秀传统文化，探索乡村优秀传统文化启蒙教育新路径.webp"
+  },
+  {
+    "title": "举办宋韵美学体验",
+    "unit": "全民阅读委员工作室",
+    "img": "5. 委员履职平台/10-全民阅读委员工作室-举办宋韵美学体验活动.webp"
+  },
+  {
+    "title": "文化公益专题展示",
+    "unit": "爱馨文化公益委员工作室",
+    "img": "5. 委员履职平台/11-爱馨文化公益委员工作室-爱馨文化公益委员工作室.webp"
+  },
+  {
+    "title": "助力孩子健康成长",
+    "unit": "“老爸好商量”委员工作室",
+    "img": "5. 委员履职平台/12-“老爸好商量”委员工作室-发扬重视家庭教育优良传统，助力孩子健康快乐成长，举办亲子运动会.webp"
+  },
+  {
+    "title": "民生座谈听民意",
+    "unit": "有意思委员工作室",
+    "img": "5. 委员履职平台/13-有意思委员工作室-工作室委员与社区居民代表召开民生座谈会，听取居民对小区提升、菜场改造、停车难等问题的意见建议.webp"
+  },
+  {
+    "title": "空调安装纠纷协商",
+    "unit": "侨见未来委员工作室",
+    "img": "5. 委员履职平台/14-侨见未来委员工作室-关于社区居民空调安装纠纷的专项协商会.webp"
+  },
+  {
+    "title": "跨代共融日活动",
+    "unit": "张瑞旭委员工作室",
+    "img": "5. 委员履职平台/15-张瑞旭委员工作室-举办委员工作室跨代共融日活动.webp"
+  },
+  {
+    "title": "宣教义诊进社区",
+    "unit": "大健康委员工作室",
+    "img": "5. 委员履职平台/16-大健康委员工作室-传承国粹，践行公益，走进社区开展健康宣教义诊活动.webp"
+  },
+  {
+    "title": "国际艺术交流送福",
+    "unit": "俞富康宋韵文化委员工作室",
+    "img": "5. 委员履职平台/17-俞富康宋韵文化委员工作室-国际艺术交流送中国“福”.webp"
+  },
+  {
+    "title": "迎新送福送春联",
+    "unit": "春泥委员工作室",
+    "img": "5. 委员履职平台/18-春泥委员工作室-两会期间迎新送福、送春联.webp"
+  },
+  {
+    "title": "种子花朵主题论坛",
+    "unit": "“邻聚力”委员工作室",
+    "img": "5. 委员履职平台/19-“邻聚力”委员工作室-凝聚社会公益慈善之心，开展“让每个孩子像花儿一样绽放”主题论坛.webp"
+  },
+  {
+    "title": "走访慰问独居老人",
+    "unit": "建和社区委员工作室",
+    "img": "5. 委员履职平台/20-建和社区委员工作室-党建引领，做好点滴惠民小事，走访慰问九和人家独居老人.webp"
+  },
+  {
+    "title": "健康普及专题座谈",
+    "unit": "健康九久委员工作室",
+    "img": "5. 委员履职平台/21-健康九久委员工作室-召开健康普及专题座谈会.webp"
+  },
+  {
+    "title": "举行乡村音乐节",
+    "unit": "同心·共富委员工作室",
+    "img": "5. 委员履职平台/22-同心·共富委员工作室-举行“乡村音乐节”，用实用管用的好点子，助力乡村振兴.webp"
+  },
+  {
+    "title": "开展茶韵议事活动",
+    "unit": "茗荟聚智委员工作室",
+    "img": "5. 委员履职平台/23-茗荟聚智委员工作室-开展“茶韵议事”交流活动.webp"
+  },
+  {
+    "title": "模拟政协委员活动",
+    "unit": "“育共体 阳光行”委员工作室",
+    "img": "5. 委员履职平台/24-“育共体 阳光行”委员工作室-“小小政协委员”青少年模拟政协活动.webp"
+  },
+  {
+    "title": "乐动新声工作室",
+    "unit": "乐动新声委员工作室",
+    "img": "5. 委员履职平台/25-乐动新声委员工作室-委员工作室.webp"
+  }
+];
+const subcenterPhotos = [
+  {
+    "title": "实践中心矩阵建设座谈会",
+    "unit": "彭埠分中心",
+    "img": "4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠1-市政协新时代协商民主实践中心矩阵建设座谈会在实践中心上城区分中心召开，市政协毛溪浩副主席参加.webp"
+  },
+  {
+    "title": "市区街三级党建联建",
+    "unit": "彭埠分中心",
+    "img": "4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠2-市区街三级政协党建联建工作会议在彭埠分中心召开.webp"
+  },
+  {
+    "title": "助力回迁安置专题协商",
+    "unit": "彭埠分中心",
+    "img": "4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠3-彭埠街道委员小组开展“圆梦安居，助力街道回迁安置”民生议事堂专题协商.webp"
+  },
+  {
+    "title": "非遗体验活动",
+    "unit": "彭埠分中心",
+    "img": "4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠4-彭埠街道委员小组开展非遗体验活动.webp"
+  },
+  {
+    "title": "夏衍小学棋类比赛",
+    "unit": "彭埠分中心",
+    "img": "4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠5-联盟单位夏衍小学开展棋类比赛.webp"
+  },
+  {
+    "title": "国学文化品鉴会",
+    "unit": "彭埠分中心",
+    "img": "4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠6-妇联界别举办国学文化品鉴暨界别调研总结会.webp"
+  },
+  {
+    "title": "中医养生专题讲座",
+    "unit": "彭埠分中心",
+    "img": "4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠7-共青团、青联界别，工商联界别，科技、科协界别和彭埠街道委员小组联合举办中医养生专题讲座及义诊服务活动.webp"
+  },
+  {
+    "title": "助推商圈社区建设",
+    "unit": "彭埠分中心",
+    "img": "4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠8-湖滨街道委员小组开展“助推商圈社区建设”民生议事堂活动.webp"
+  },
+  {
+    "title": "老旧小区物业服务协商",
+    "unit": "彭埠分中心",
+    "img": "4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠9-清波街道委员小组、无党派界别开展清波街道老旧小区物业服务“质价双提”议事协商活动.webp"
+  },
+  {
+    "title": "“遇见东坡”交流会",
+    "unit": "彭埠分中心",
+    "img": "4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠10-小营街道委员小组举办“遇见东坡”交流会.webp"
+  },
+  {
+    "title": "防诈意识专题协商",
+    "unit": "彭埠分中心",
+    "img": "4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠11-望江街道委员小组开展“普及全民金融知识增强百姓防诈意识”专题协商活动.webp"
+  },
+  {
+    "title": "冬季读书会及专题协商",
+    "unit": "彭埠分中心",
+    "img": "4. 市政协新时代协商民主实践 - 上城分中心/分中心/彭埠12-南星街道委员小组携手特邀界别举办“赓续历史之文脉，建言服务为民生”冬季读书会及专题协商会.webp"
+  }
+];
+const ziyangPhotos = [
+  "4. 市政协新时代协商民主实践 - 上城分中心/分中心/紫阳1-区政协孙国方主席赴紫阳分中心调研.webp",
+  "4. 市政协新时代协商民主实践 - 上城分中心/分中心/紫阳2-市政协吴玉凤副秘书长调研紫阳分中心建设工作.webp",
+  "4. 市政协新时代协商民主实践 - 上城分中心/分中心/紫阳3-紫阳上羊实践点开展“推动邻里食堂智能化”专题协商会.webp"
+];
+const streets = [
+  {
+    "name": "湖滨街道",
+    "leader": "查靖",
+    "studio": "政协湖滨小组委员工作室",
+    "desc": "数智民生协商，商圈社区建设"
+  },
+  {
+    "name": "清波街道",
+    "leader": "徐洁",
+    "studio": "政协清波小组委员工作室",
+    "desc": "文化旅游融合，老旧小区物业提质"
+  },
+  {
+    "name": "小营街道",
+    "leader": "冷晓辉",
+    "studio": "政协小营小组委员工作室",
+    "desc": "“遇见东坡”文化交流"
+  },
+  {
+    "name": "望江街道",
+    "leader": "毛静波",
+    "studio": "政协望江小组委员工作室",
+    "desc": "普及金融知识，防诈专题协商"
+  },
+  {
+    "name": "南星街道",
+    "leader": "游广敏",
+    "studio": "政协南星小组委员工作室",
+    "desc": "赓续文脉，建言服务民生"
+  },
+  {
+    "name": "紫阳街道",
+    "leader": "王盈",
+    "studio": "紫阳街道“三一”委员工作室",
+    "desc": "邻里食堂智能化，基层自治"
+  },
+  {
+    "name": "闸弄口街道",
+    "leader": "祝文雅",
+    "studio": "闸弄口街道“基层治理”委员工作室",
+    "desc": "基层治理协商"
+  },
+  {
+    "name": "凯旋街道",
+    "leader": "金志伟",
+    "studio": "政协凯旋小组委员工作室",
+    "desc": "青年创业孵化，社区服务"
+  },
+  {
+    "name": "采荷街道",
+    "leader": "赵丹晨",
+    "studio": "采荷街道“幸福19”委员工作室",
+    "desc": "疗愈经济分享体验"
+  },
+  {
+    "name": "四季青街道",
+    "leader": "李岗",
+    "studio": "政协四季青小组委员工作室",
+    "desc": "投早投小投科技专题协商"
+  },
+  {
+    "name": "笕桥街道",
+    "leader": "阮骏",
+    "studio": "政协笕桥小组委员工作室",
+    "desc": "街道基层协商"
+  },
+  {
+    "name": "彭埠街道",
+    "leader": "任渊",
+    "studio": "政协彭埠小组委员工作室",
+    "desc": "非遗传承体验，回迁安置协商"
+  },
+  {
+    "name": "九堡街道",
+    "leader": "胡建清",
+    "studio": "政协九堡小组委员工作室",
+    "desc": "社区协商，健康普及"
+  },
+  {
+    "name": "丁兰街道",
+    "leader": "倪勇卿",
+    "studio": "政协丁兰小组委员工作室",
+    "desc": "乡村振兴，共富协商"
+  }
+];
+
+// ===== HELPERS =====
+function getMonthClass(m) {
+    if(m>=3&&m<=5) return 'month-spring';
+    if(m>=6&&m<=8) return 'month-summer';
+    if(m>=9&&m<=11) return 'month-autumn';
+    return 'month-winter';
+}
+function starHtml(n) { return Array(n).fill('<span class="text-amber-400">★</span>').join('') + Array(5-n).fill('<span class="text-slate-200">★</span>').join(''); }
+function imgPath(p) { return BASE_PATH + p; }
+function openLightbox(src) { document.getElementById('lightbox-img').src = src; document.getElementById('lightbox').style.display = 'flex'; }
+
+// ===== STATS BAR =====
+function renderStats(type) {
+    const bar = document.getElementById('stats-bar');
+    if (type === 'sectors') bar.innerHTML = `
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">16</div><div class="text-xs text-slate-500 mt-1">各界别</div></div>
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">200+</div><div class="text-xs text-slate-500 mt-1">政协委员</div></div>
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">14</div><div class="text-xs text-slate-500 mt-1">街道小组</div></div>
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">50</div><div class="text-xs text-slate-500 mt-1">委员工作室</div></div>`;
+    else if (type === 'plans') bar.innerHTML = `
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">34</div><div class="text-xs text-slate-500 mt-1">年度活动计划</div></div>
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">16</div><div class="text-xs text-slate-500 mt-1">参与界别</div></div>
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">18</div><div class="text-xs text-slate-500 mt-1">专题协商</div></div>
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">2026</div><div class="text-xs text-slate-500 mt-1">年度计划</div></div>`;
+    else if (type === 'studios') bar.innerHTML = `
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">50</div><div class="text-xs text-slate-500 mt-1">委员工作室</div></div>
+        <div class="stat-card"><div class="text-2xl font-black text-[#f59e0b]">25</div><div class="text-xs text-slate-500 mt-1">五星工作室</div></div>
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">17</div><div class="text-xs text-slate-500 mt-1">四星工作室</div></div>
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">14</div><div class="text-xs text-slate-500 mt-1">街道全覆盖</div></div>`;
+    else if (type === 'activities') bar.innerHTML = `
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">25</div><div class="text-xs text-slate-500 mt-1">履职活动照片</div></div>
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">12</div><div class="text-xs text-slate-500 mt-1">分中心活动</div></div>
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">50+</div><div class="text-xs text-slate-500 mt-1">界别活动照片</div></div>
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">87+</div><div class="text-xs text-slate-500 mt-1">全部照片</div></div>`;
+    else if (type === 'streets') bar.innerHTML = `
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">14</div><div class="text-xs text-slate-500 mt-1">街道委员小组</div></div>
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">300+</div><div class="text-xs text-slate-500 mt-1">街道委员</div></div>
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">14</div><div class="text-xs text-slate-500 mt-1">街道工作室</div></div>
+        <div class="stat-card"><div class="text-2xl font-black text-[#3a67ab]">2</div><div class="text-xs text-slate-500 mt-1">实践分中心</div></div>`;
+}
+
+// ===== RENDER FUNCTIONS =====
+function renderSectors(filter) {
+    document.getElementById('view-title').innerHTML = '全区 16 个界别矩阵 <span class="h-px flex-1 bg-slate-100 hidden md:block"></span>';
+    const container = document.getElementById('data-grid');
+    container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20";
+    let data = sectors;
+    if (filter) data = sectors.filter(s => s.name.includes(filter) || s.content.includes(filter) || s.desc.includes(filter));
+    container.innerHTML = data.map(s => `
+        <div class="sector-card p-6 flex flex-col" onclick="showSectorDetail('${s.id}')">
+            ${s.photos && s.photos[0] ? `<img src="${BASE_PATH+escapeHtml(s.photos[0])}" class="sector-photo" onerror="this.style.display='none'" loading="lazy">` : ''}
+            <div class="flex justify-between items-center mb-3 text-[#bacbe3] font-black text-sm">#${s.id}</div>
+            <h3 class="text-xl font-bold text-slate-800 mb-1">${escapeHtml(s.name)}</h3>
+            <p class="text-xs text-[#3a67ab] font-bold mb-2">联系领导：${escapeHtml(s.leader)}</p>
+            <p class="text-xs text-slate-500 leading-relaxed line-clamp-2">${escapeHtml(s.desc)}</p>
+            <div class="mt-auto pt-3 flex items-center gap-2 text-[10px] text-slate-400">
+                <span>📷 ${s.photos ? s.photos.length : 0}张</span>
+                <span>👥 ${s.members ? s.members.split(',').length : 0}人</span>
             </div>
         </div>
-    </div>
+    `).join('');
+    document.getElementById('search-input').classList.remove('hidden');
+}
 
-    <script>
-        const sectors = [
-            { id: "01", name: "中共", desc: "联系领导：孙国方、王良约", content: "充分发挥“关键少数”作用，带头调查研究。聚焦产业突破和人才引育，助力上城经济高质量发展。", members: "孙国方, 黄爱芳, 叶榕, 范国良, 王良约, 查靖, 方蔚军, 许康波, 李伟达, 陆雯, 郑斐尹, 章海燕, 黎洁, 徐洁, 许国伟, 杨洁, 陈蕴涵, 周媛媛, 潘克倾, 冷晓辉" },
-            { id: "02", name: "无党派", desc: "联系领导：范国良", content: "聚焦公共法律服务和中央创新区建设，已成立“无党派委员工作室”、“老字号工作室”等5个委员工作室。", members: "陈奕东, 沈波, 朱嫣红, 张含, 陈贺梅, 罗旭峰, 蔡旭荣, 施俞刚, 韩霄波, 丁黎, 陈娟, 俞仲凯, 蒋骥, 孙文祥, 何晓菲, 沈旭欣, 屠明珏, 童雁汝南, 虞静, 应啸" },
-            { id: "03", name: "共青团、青联", desc: "联系领导：叶榕", content: "打造“青尚共议”品牌，聚焦青年群众关心热点，在商业街区、创业园区设立“青年观察点”，发挥主体作用。", members: "郑斐尹, 华剑波, 葛佳轩, 陈翔, 钱云忠, 赵群伟, 言妍, 高艳, 刘元凯, 宫旭, 盛昕炜, 尹兆青, 陆涛, 刘晓, 张瑞旭, 盛史超, 尚晓红, 冯敏, 韩新宇" },
-            { id: "04", name: "经济", desc: "联系领导：洪明", content: "由企业家、商贸等领域委员会组成。开展时尚产业高质量发展调研，为上城经济发展建言献策。", members: "胡丽亚, 王勇, 李伟达, 吴利泽, 陈洁, 胡巍, 罗旭峰, 梁向明, 王容峰, 邹欢金, 陈仕会, 陈星, 楼数, 张勇, 毛雪波, 吕昀, 潘丽华, 周立钢, 高杰, 骆志明" },
-            { id: "05", name: "科技", desc: "联系领导：洪明", content: "聚焦科创赋能和改革提能，推进科技创新平台建设，在助力科技创新突破中展现新作为。", members: "方文伟, 聂建波, 胡丽亚, 汪利民, 张建平, 陈屹一, 陈明晖, 葛芳民, 韩霄波, 潘丽华, 王尉, 陈娟, 李友银, 汪丹凤, 聂世元, 聂明军, 董娜, 黄晓煌, 杨冬强, 方晓阳" }
-        ];
-
-        const plans = [
-            { month: "1月", topic: "国际人才交流活动", unit: "中共界别" },
-            { month: "3月", topic: "“她”力量·在路上——新就业女性主题沙龙", unit: "无党派人士界别" },
-            { month: "4月", topic: "“书香润初心·青年话担当”读书交流会", unit: "共青团、青联界别" },
-            { month: "5月", topic: "“品宋韵·话传承·谋创新” 文化专题活动", unit: "妇联界别" },
-            { month: "8月", topic: "电动自行车充停点位数字化升级专题协商", unit: "湖滨街道委员小组" }
-        ];
-
-        const studios = [
-            { name: "政协湖滨小组工作室", leader: "查靖", rating: "5星", address: "上城区羊血弄10号", feature: "数智民生协商" },
-            { name: "政协清波小组工作站", leader: "徐洁", rating: "5星", address: "上城区蔡官巷35号", feature: "文化旅游融合" },
-            { name: "茗荟聚智工作室", leader: "郑毅", rating: "4星", address: "上城区凯旋街道", feature: "青年创业孵化" }
-        ];
-
-        const activitiesData = [
-            { title: '学习考察新质生产力', unit: '政协湖滨小组委员工作室', img: 'data_assets/1-政协湖滨小组委员工作室-学习考察新质生产力一-万事利科创中心.webp' },
-            { title: '文化送福联动公益', unit: '政协清波小组委员工作室', img: 'data_assets/2-政协清波小组委员工作室-幸福清波，文化送福，联动中国美院为清波派出所、禁毒所、清波居民送新年祝福.webp' },
-            { title: '领跑基层自治之路', unit: '政协紫阳“三一”委员工作室', img: 'data_assets/3-政协紫阳“三一”委员工作室-践行“委员说·委员做”，锚定“两个先行”目标，领跑“基层白治”之路.webp' },
-            { title: '疗愈经济分享体验会', unit: '采荷街道“幸福19”委员工作室', img: 'data_assets/4-采荷街道“幸福19”委员工作室-“疗愈经济分享体验会”活动.webp' },
-            { title: '投科技专题协商会', unit: '政协四季青小组委员工作室', img: 'data_assets/5-政协四季青小组委员工作室-市区县三级联动，召开“投早投小投科技”专题协商会.webp' },
-            { title: '非遗制作体验活动', unit: '政协彭埠小组委员工作室', img: 'data_assets/6-政协彭埠小组委员工作室-邀请非遗传承人开展非遗制作体验活动.webp' },
-            { title: '开展美丽大讲堂', unit: '工会界别委员工作室', img: 'data_assets/7-工会界别委员工作室-开展“美丽大讲堂”活动.webp' },
-            { title: '残疾人之家义卖', unit: '社会福利和保障界别委员工作室', img: 'data_assets/8-社会福利和保障界别委员工作室-残疾人之家的义卖活动.webp' },
-            { title: '传承乡村传统文化', unit: '“文润童心”委员工作室', img: 'data_assets/9-“文润童心”委员工作室-传承和弘扬中华优秀传统文化，探索乡村优秀传统文化启蒙教育新路径.webp' },
-            { title: '举办宋韵美学体验', unit: '全民阅读委员工作室', img: 'data_assets/10-全民阅读委员工作室-举办宋韵美学体验活动.webp' },
-            { title: '文化公益专题展示', unit: '爱馨文化公益委员工作室', img: 'data_assets/11-爱馨文化公益委员工作室-爱馨文化公益委员工作室.webp' },
-            { title: '助力孩子健康成长', unit: '“老爸好商量”委员工作室', img: 'data_assets/12-“老爸好商量”委员工作室-发扬重视家庭教育优良传统，助力孩子健康快乐成长，举办亲子运动会.webp' },
-            { title: '民生座谈听民意', unit: '有意思委员工作室', img: 'data_assets/13-有意思委员工作室-工作室委员与社区居民代表召开民生座谈会，听取居民对小区提升、菜场改造、停车难等问题的意见建议.webp' },
-            { title: '空调安装纠纷协商', unit: '侨见未来委员工作室', img: 'data_assets/14-侨见未来委员工作室-关于社区居民空调安装纠纷的专项协商会.webp' },
-            { title: '跨代共融日活动', unit: '张瑞旭委员工作室', img: 'data_assets/15-张瑞旭委员工作室-举办委员工作室跨代共融日活动.webp' },
-            { title: '宣教义诊进社区', unit: '大健康委员工作室', img: 'data_assets/16-大健康委员工作室-传承国粹，践行公益，走进社区开展健康宣教义诊活动.webp' },
-            { title: '国际艺术交流送福', unit: '俞富康宋韵文化委员工作室', img: 'data_assets/17-俞富康宋韵文化委员工作室-国际艺术交流送中国“福”.webp' },
-            { title: '迎新送福送春联', unit: '春泥委员工作室', img: 'data_assets/18-春泥委员工作室-两会期间迎新送福、送春联.webp' },
-            { title: '种子花朵主题论坛', unit: '“邻聚力”委员工作室', img: 'data_assets/19-“邻聚力”委员工作室-凝聚社会公益慈善之心，开展“让每个孩子像花儿一样绽放”主题论坛.webp' },
-            { title: '走访慰问独居老人', unit: '建和社区委员工作室', img: 'data_assets/20-建和社区委员工作室-党建引领，做好点滴惠民小事，走访慰问九和人家独居老人.webp' },
-            { title: '健康普及专题座谈', unit: '健康九久委员工作室', img: 'data_assets/21-健康九久委员工作室-召开健康普及专题座谈会.webp' },
-            { title: '举行乡村音乐节', unit: '同心·共富委员工作室', img: 'data_assets/22-同心·共富委员工作室-举行“乡村音乐节”，用实用管用的好点子，助力乡村振兴.webp' },
-            { title: '开展茶韵议事活动', unit: '茗荟聚智委员工作室', img: 'data_assets/23-茗荟聚智委员工作室-开展“茶韵议事”交流活动.webp' },
-            { title: '模拟政协委员活动', unit: '“育共体 阳光行”委员工作室', img: 'data_assets/24-“育共体 阳光行”委员工作室-“小小政协委员”青少年模拟政协活动.webp' }
-        ];
-
-        function renderSectors() {
-            document.getElementById('view-title').innerHTML = `全区 16 个界别矩阵 <span class="h-px flex-1 bg-slate-100"></span>`;
-            const container = document.getElementById('data-grid');
-            container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20";
-            container.innerHTML = sectors.map(s => `
-                <div class="sector-card p-10 flex flex-col" onclick="showSectorDetail('${s.name}')">
-                    <div class="flex justify-between items-center mb-6 text-[#bacbe3] font-black">#${s.id}</div>
-                    <h3 class="text-2xl font-bold text-slate-800 mb-2">${s.name}</h3>
-                    <p class="text-xs text-[#3a67ab] font-bold mb-4">${s.desc}</p>
-                    <p class="text-xs text-slate-500 leading-relaxed line-clamp-3">${s.content}</p>
-                </div>
-            `).join('');
-        }
-
-        function renderPlans() {
-            document.getElementById('view-title').innerHTML = `2024 年度履职计划 <span class="h-px flex-1 bg-slate-100"></span>`;
-            const container = document.getElementById('data-grid');
-            container.className = "max-w-4xl mx-auto space-y-6 pb-20 timeline-container";
-            container.innerHTML = plans.map(p => `
-                <div class="relative pl-8">
-                    <div class="timeline-dot" style="top: 2rem;"></div>
-                    <div class="plan-card p-6 shadow-sm flex items-center justify-between" onclick="showPlanDetail('${p.topic}')">
-                        <div class="flex items-center gap-6">
-                            <div class="text-2xl font-black text-[#3a67ab] w-16">${p.month}</div>
+function renderPlans(filter) {
+    document.getElementById('view-title').innerHTML = '2026 年度履职计划 <span class="h-px flex-1 bg-slate-100 hidden md:block"></span>';
+    const container = document.getElementById('data-grid');
+    container.className = "max-w-4xl mx-auto space-y-4 pb-20";
+    let data = plans2026;
+    if (filter) data = plans2026.filter(p => p.sector.includes(filter) || p.activity.includes(filter) || p.type.includes(filter) || p.time.includes(filter));
+    const grouped = {};
+    data.forEach(p => { const m = p.month; if(!grouped[m]) grouped[m]=[]; grouped[m].push(p); });
+    const sortedMonths = Object.keys(grouped).sort((a,b)=>a-b);
+    container.innerHTML = sortedMonths.map(m => `
+        <div class="mb-8">
+            <div class="text-sm font-black text-[#3a67ab] mb-3 pl-4">${m}月</div>
+            <div class="space-y-3">
+                ${grouped[m].map(p => `
+                    <div class="plan-card p-5 shadow-sm flex items-center justify-between" onclick="showPlanDetail('${p.sector.replace(/'/g,"&#39;")}', '${p.activity.replace(/'/g,"&#39;").replace(/"/g,"&quot;")}')">
+                        <div class="flex items-center gap-5">
+                            <div class="month-badge ${getMonthClass(parseInt(m))}">${p.time}</div>
                             <div>
-                                <h4 class="text-lg font-bold text-slate-800 mb-1">${p.topic}</h4>
-                                <p class="text-xs text-slate-400">执行单位: ${p.unit}</p>
+                                <h4 class="font-bold text-slate-800 mb-1">${escapeHtml(p.activity)}</h4>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xs text-[#3a67ab] font-bold">${escapeHtml(p.sector)}</span>
+                                    <span class="glass-tag">${escapeHtml(p.type)}</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="text-slate-300">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        <div class="text-slate-300 flex-shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </div>
                     </div>
-                </div>
-            `).join('');
-        }
+                `).join('')}
+            </div>
+        </div>
+    `).join('');
+    document.getElementById('search-input').classList.remove('hidden');
+}
 
-        function renderStudios() {
-            document.getElementById('view-title').innerHTML = `星级评估工作站 <span class="h-px flex-1 bg-slate-100"></span>`;
-            const container = document.getElementById('data-grid');
-            container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20";
-            container.innerHTML = studios.map(s => `
-                <div class="sector-card p-10 flex flex-col" onclick="showStudioDetail('${s.name}')">
-                    <div class="mb-8"><span class="glass-tag">${s.rating}</span></div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-2">${s.name}</h3>
-                    <p class="text-[10px] text-slate-400 mb-8 italic">领衔: ${s.leader}</p>
-                    <div class="mt-auto p-4 bg-slate-50 rounded-2xl text-[10px] text-slate-500">${s.feature}</div>
-                </div>
-            `).join('');
-        }
+function renderStudios(filter) {
+    document.getElementById('view-title').innerHTML = '委员工作室 (共50个) <span class="h-px flex-1 bg-slate-100 hidden md:block"></span>';
+    const container = document.getElementById('data-grid');
+    container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 pb-20";
+    let data = studios;
+    if (filter) data = studios.filter(s => s.name.includes(filter) || s.leader.includes(filter) || s.address.includes(filter) || s.feature.includes(filter));
+    container.innerHTML = data.map(s => `
+        <div class="studio-card p-5 flex flex-col" onclick="showStudioDetail(${s.id})">
+            <div class="flex justify-between items-start mb-3">
+                <span class="glass-tag">#${s.id}</span>
+                <span>${starHtml(s.rating)}</span>
+            </div>
+            <h3 class="font-bold text-slate-800 mb-1 text-sm leading-tight line-clamp-2">${escapeHtml(s.name)}</h3>
+            <p class="text-[11px] text-slate-400 mb-3">领衔：${escapeHtml(s.leader)}</p>
+            <div class="mt-auto p-3 bg-slate-50 rounded-xl text-[10px] text-slate-500">
+                <div class="truncate">📍 ${escapeHtml(s.address)}</div>
+                ${s.feature ? `<div class="text-[#3a67ab] font-bold mt-1">🏷 ${escapeHtml(s.feature)}</div>` : ''}
+            </div>
+        </div>
+    `).join('');
+    document.getElementById('search-input').classList.remove('hidden');
+}
 
-        function renderActivities() {
-            document.getElementById('view-title').innerHTML = `基层履职照片墙 <span class="h-px flex-1 bg-slate-100"></span>`;
-            const container = document.getElementById('data-grid');
-            container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20";
-            container.innerHTML = activitiesData.map(a => `
-                <div class="sector-card overflow-hidden flex flex-col" onclick="showActivityDetail('${a.title}')">
-                    <div class="aspect-video bg-neutral-100 overflow-hidden">
-                        <img src="${a.img}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
-                    </div>
-                    <div class="p-6">
-                        <span class="text-[9px] font-black text-[#3a67ab] uppercase tracking-widest">${a.unit}</span>
-                        <h4 class="text-xs font-bold text-slate-800 line-clamp-1 mt-2">${a.title}</h4>
-                    </div>
-                </div>
-            `).join('');
-        }
+function renderActivities(filter) {
+    document.getElementById('view-title').innerHTML = '基层履职照片墙 <span class="h-px flex-1 bg-slate-100 hidden md:block"></span>';
+    const container = document.getElementById('data-grid');
+    container.innerHTML = `
+        <div class="col-span-full flex gap-3 mb-2 flex-wrap" id="activity-tabs">
+            <button class="px-4 py-1.5 rounded-full text-xs font-bold bg-[#3a67ab] text-white" onclick="renderActivitySection('studio')">委员履职平台 (${activities.length})</button>
+            <button class="px-4 py-1.5 rounded-full text-xs font-bold bg-slate-200 text-slate-600" onclick="renderActivitySection('subcenter')">实践分中心 (${subcenterPhotos.length})</button>
+            <button class="px-4 py-1.5 rounded-full text-xs font-bold bg-slate-200 text-slate-600" onclick="renderActivitySection('sector')">界别活动</button>
+        </div>
+        <div class="col-span-full" id="activity-content"></div>
+    `;
+    container.className = "pb-20";
+    document.getElementById('search-input').classList.add('hidden');
+    renderActivitySection('studio');
+}
 
-        function switchTab(type, el) {
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            el.classList.add('active');
-            if(type === 'sectors') renderSectors();
-            if(type === 'plans') renderPlans();
-            if(type === 'studios') renderStudios();
-            if(type === 'activities') renderActivities();
-        }
+function renderActivitySection(type) {
+    const tabs = document.querySelectorAll('#activity-tabs button');
+    tabs.forEach(t => { t.classList.remove('bg-[#3a67ab]','text-white'); t.classList.add('bg-slate-200','text-slate-600'); });
+    const target = document.getElementById('activity-content');
+    let photos = [];
+    if (type === 'studio') {
+        tabs[0].classList.add('bg-[#3a67ab]','text-white'); tabs[0].classList.remove('bg-slate-200','text-slate-600');
+        photos = activities;
+    } else if (type === 'subcenter') {
+        tabs[1].classList.add('bg-[#3a67ab]','text-white'); tabs[1].classList.remove('bg-slate-200','text-slate-600');
+        photos = subcenterPhotos;
+    } else {
+        tabs[2].classList.add('bg-[#3a67ab]','text-white'); tabs[2].classList.remove('bg-slate-200','text-slate-600');
+        sectors.forEach(s => {
+            if(s.photos) s.photos.forEach(p => photos.push({title: s.name+"界别活动", unit: s.name, img: p}));
+        });
+    }
+    target.innerHTML = `<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">${photos.map(a => `
+        <div class="photo-card" onclick="openLightbox('${BASE_PATH+escapeHtml(a.img)}')">
+            <img src="${BASE_PATH+escapeHtml(a.img)}" loading="lazy" onerror="this.parentElement.style.display='none'">
+            <div class="photo-overlay">
+                <div>
+                    <span class="text-[9px] text-white/70 font-bold block">${escapeHtml(a.unit)}</span>
+                    <span class="text-xs text-white font-bold line-clamp-2">${escapeHtml(a.title)}</span>
+                </div>
+            </div>
+        </div>
+    `).join('')}</div>`;
+}
 
-        function showSectorDetail(name) {
-            const data = sectors.find(s => s.name === name);
-            document.getElementById('modal-tag').innerText = "界别详情";
-            document.getElementById('modal-title').innerText = data.name;
-            document.getElementById('modal-body').innerHTML = `
-                <div class="space-y-8">
-                    <div>
-                        <h4 class="text-xs font-black text-[#3a67ab] mb-4 tracking-widest uppercase">Summary / 简介</h4>
-                        <p class="text-lg text-slate-800 leading-relaxed font-medium">${data.content}</p>
-                    </div>
-                    <div class="bg-[#def1f5] p-8 rounded-3xl border border-[#bacbe3]">
-                        <h4 class="text-xs font-black text-[#3a67ab] mb-6 uppercase">Sector Info / 界别信息</h4>
-                        <div class="space-y-4 text-sm font-bold border-t border-[#bacbe3] pt-4">
-                            <div class="flex justify-between"><span>联系领导:</span> <span class="text-[#3a67ab]">${data.desc.replace("联系领导：", "")}</span></div>
-                            <div class="flex justify-between"><span>成员规模:</span> <span class="text-[#3a67ab]">${data.members.split(',').length} 人</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-slate-50 p-8 rounded-3xl border border-slate-200">
-                    <div class="flex items-center justify-between mb-6">
-                        <h4 class="text-xs font-black text-slate-400 uppercase">Members / 成员介绍</h4>
-                        <span class="px-3 py-1 bg-white rounded-full text-[10px] font-bold text-[#3a67ab] border border-[#bacbe3]">名单公示</span>
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                        ${data.members.split(',').map(m => `<span class="px-3 py-1.5 bg-white rounded-xl text-xs font-semibold text-slate-700 shadow-sm border border-slate-100 hover:border-[#3a67ab] transition-colors">${m.trim()}</span>`).join('')}
-                    </div>
-                </div>
-            `;
-            document.getElementById('modal-container').style.display = 'flex';
-        }
+function renderStreets() {
+    document.getElementById('view-title').innerHTML = '14个街道委员小组 <span class="h-px flex-1 bg-slate-100 hidden md:block"></span>';
+    const container = document.getElementById('data-grid');
+    container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-20";
+    container.innerHTML = streets.map((st,i) => `
+        <div class="sector-card p-6 flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-2xl font-black text-[#bacbe3]">#${String(i+1).padStart(2,'0')}</span>
+                <span class="glass-tag">${escapeHtml(st.studio)}</span>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">${escapeHtml(st.name)}</h3>
+            <p class="text-xs text-[#3a67ab] font-bold mb-2">联系领导：${escapeHtml(st.leader)}</p>
+            <p class="text-xs text-slate-500 leading-relaxed">${escapeHtml(st.desc)}</p>
+        </div>
+    `).join('');
+    document.getElementById('search-input').classList.add('hidden');
+}
 
-        function showPlanDetail(topic) {
-            const data = plans.find(p => p.topic === topic);
-            document.getElementById('modal-tag').innerText = "年度计划";
-            document.getElementById('modal-title').innerText = data.month + " 计划详情";
-            document.getElementById('modal-body').innerHTML = `
-                <div class="col-span-2 bg-[#def1f5] p-10 rounded-[32px] border border-[#bacbe3]">
-                    <h4 class="text-2xl font-bold text-slate-800 mb-4">${data.topic}</h4>
-                    <p class="text-slate-600 mb-8 font-medium">执行单位：${data.unit}</p>
-                    <div class="flex gap-4">
-                        <div class="px-6 py-2 bg-white rounded-full text-xs font-bold shadow-sm">状态：待启动</div>
-                        <div class="px-6 py-2 bg-white rounded-full text-xs font-bold shadow-sm">时间：2024年${data.month}</div>
-                    </div>
-                </div>
-            `;
-            document.getElementById('modal-container').style.display = 'flex';
-        }
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
 
-        function showStudioDetail(name) {
-            const data = studios.find(s => s.name === name);
-            document.getElementById('modal-tag').innerText = "工作室详情";
-            document.getElementById('modal-title').innerText = data.name;
-            document.getElementById('modal-body').innerHTML = `
-                <div class="col-span-2 bg-[#3a67ab] p-10 text-white rounded-3xl flex justify-between">
-                    <div><p class="text-[#bacbe3] text-[10px] font-bold">领衔委员</p><h3 class="text-3xl font-black">${data.leader}</h3></div>
-                    <div class="text-right"><p class="text-[#bacbe3] text-[10px] font-bold">星级评定</p><h3 class="text-3xl font-black">${data.rating}</h3></div>
-                </div>
-                <div class="col-span-2 p-8 border border-[#bacbe3] rounded-3xl">
-                    <h4 class="font-bold mb-2">工作室亮点</h4>
-                    <p class="text-slate-500 font-medium">${data.feature}</p>
-                    <p class="text-sm text-slate-400 mt-6 border-t border-[#bacbe3] pt-4 italic">${data.address}</p>
-                </div>
-            `;
-            document.getElementById('modal-container').style.display = 'flex';
-        }
+function doSearch() {
+    const val = document.getElementById('search-input').value.trim();
+    const activeTab = document.querySelector('.nav-item.active');
+    if (!activeTab) return;
+    const text = activeTab.innerText;
+    if(text.includes('界别概览')) renderSectors(val);
+    else if(text.includes('年度计划')) renderPlans(val);
+    else if(text.includes('工作室')) renderStudios(val);
+}
 
-        function showActivityDetail(title) {
-            const data = activitiesData.find(a => a.title === title);
-            document.getElementById('modal-tag').innerText = "纪实回顾";
-            document.getElementById('modal-title').innerText = "履职瞬间";
-            document.getElementById('modal-body').innerHTML = `
-                <div class="col-span-2">
-                    <img src="${data.img}" class="w-full rounded-[32px] shadow-2xl mb-8 border-4 border-white max-h-[400px] object-cover">
-                    <div class="p-8 bg-[#def1f5] rounded-3xl border border-[#bacbe3] text-center">
-                        <span class="text-xs font-bold text-[#3a67ab] mb-2 block tracking-widest uppercase">${data.unit}</span>
-                        <h4 class="text-2xl font-black text-slate-900 leading-tight">${data.title}</h4>
-                    </div>
+// ===== MODAL FUNCTIONS =====
+function showSectorDetail(id) {
+    const data = sectors.find(s => s.id === id);
+    document.getElementById('modal-tag').innerText = "界别详情";
+    document.getElementById('modal-title').innerText = data.name + "界别";
+    const photoGallery = data.photos ? data.photos.map(p => `
+        <img src="${BASE_PATH+escapeHtml(p)}" class="w-full h-24 object-cover rounded-xl cursor-pointer hover:opacity-80 transition" onclick="openLightbox('${BASE_PATH+escapeHtml(p)}')" loading="lazy" onerror="this.style.display='none'">
+    `).join('') : '';
+    document.getElementById('modal-body').innerHTML = `
+        <div class="space-y-8">
+            <div>
+                <h4 class="text-xs font-black text-[#3a67ab] mb-4 tracking-widest uppercase">Summary / 简介</h4>
+                <p class="text-lg text-slate-800 leading-relaxed font-medium">${escapeHtml(data.content)}</p>
+            </div>
+            ${photoGallery ? `<div>
+                <h4 class="text-xs font-black text-[#3a67ab] mb-4 tracking-widest uppercase">Activity Photos / 活动照片</h4>
+                <div class="grid grid-cols-2 gap-3">${photoGallery}</div>
+            </div>` : ''}
+            <div class="bg-[#def1f5] p-8 rounded-3xl border border-[#bacbe3]">
+                <h4 class="text-xs font-black text-[#3a67ab] mb-6 uppercase">Sector Info / 界别信息</h4>
+                <div class="space-y-3 text-sm font-bold border-t border-[#bacbe3] pt-4">
+                    <div class="flex justify-between"><span>联系领导:</span> <span class="text-[#3a67ab]">${escapeHtml(data.leader)}</span></div>
+                    <div class="flex justify-between"><span>成员规模:</span> <span class="text-[#3a67ab]">${data.members.split(',').length} 人</span></div>
+                    <div class="flex justify-between"><span>界别编号:</span> <span class="text-[#3a67ab]">#${data.id}</span></div>
                 </div>
-            `;
-            document.getElementById('modal-container').style.display = 'flex';
-        }
+            </div>
+        </div>
+        <div class="bg-slate-50 p-8 rounded-3xl border border-slate-200">
+            <div class="flex items-center justify-between mb-6">
+                <h4 class="text-xs font-black text-slate-400 uppercase">Members / 成员介绍</h4>
+                <span class="px-3 py-1 bg-white rounded-full text-[10px] font-bold text-[#3a67ab] border border-[#bacbe3]">公示名单</span>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                ${data.members.split(',').map(m => `<span class="px-3 py-1.5 bg-white rounded-xl text-xs font-semibold text-slate-700 shadow-sm border border-slate-100 hover:border-[#3a67ab] transition-colors">${escapeHtml(m.trim())}</span>`).join('')}
+            </div>
+        </div>
+    `;
+    document.getElementById('modal-container').style.display = 'flex';
+}
 
-        function closeModal() { document.getElementById('modal-container').style.display = 'none'; }
-        
-        // Init
-        renderSectors();
-    </script>
+function showPlanDetail(sector, activity) {
+    const data = plans2026.find(p => p.sector === sector && p.activity === activity);
+    if (!data) return;
+    document.getElementById('modal-tag').innerText = "2026 年度计划";
+    document.getElementById('modal-title').innerText = data.time + " · " + data.sector;
+    document.getElementById('modal-body').innerHTML = `
+        <div class="col-span-2 bg-[#def1f5] p-10 rounded-[32px] border border-[#bacbe3]">
+            <h4 class="text-2xl font-bold text-slate-800 mb-4">${escapeHtml(data.activity)}</h4>
+            <div class="flex flex-wrap gap-3 mb-8">
+                <span class="px-4 py-1.5 bg-white rounded-full text-xs font-bold shadow-sm">执行单位：${escapeHtml(data.sector)}</span>
+                <span class="px-4 py-1.5 bg-white rounded-full text-xs font-bold shadow-sm">活动类型：${escapeHtml(data.type)}</span>
+                <span class="px-4 py-1.5 bg-white rounded-full text-xs font-bold shadow-sm">时间：2026年${escapeHtml(data.time)}</span>
+            </div>
+            <div class="bg-white p-6 rounded-2xl">
+                <h5 class="font-bold text-slate-800 mb-2">活动计划说明</h5>
+                <p class="text-sm text-slate-500">该活动已列入2026年度履职计划，由${escapeHtml(data.sector)}负责组织实施，拟于2026年${escapeHtml(data.time)}开展。活动类型为${escapeHtml(data.type)}，旨在通过政协平台深化协商民主、凝聚各界智慧、助推上城高质量发展。</p>
+            </div>
+        </div>
+    `;
+    document.getElementById('modal-container').style.display = 'flex';
+}
+
+function showStudioDetail(id) {
+    const data = studios.find(s => s.id === id);
+    if (!data) return;
+    document.getElementById('modal-tag').innerText = "工作室详情";
+    document.getElementById('modal-title').innerText = data.name;
+    const relatedActivity = activities.find(a => a.unit === data.name);
+    document.getElementById('modal-body').innerHTML = `
+        <div class="col-span-2 bg-[#3a67ab] p-10 text-white rounded-3xl flex justify-between flex-wrap gap-4">
+            <div><p class="text-[#bacbe3] text-[10px] font-bold">领衔委员</p><h3 class="text-3xl font-black">${escapeHtml(data.leader)}</h3></div>
+            <div class="text-right"><p class="text-[#bacbe3] text-[10px] font-bold">星级评定</p><h3 class="text-3xl font-black">${starHtml(data.rating)}</h3></div>
+        </div>
+        <div class="col-span-2 p-8 border border-[#bacbe3] rounded-3xl">
+            <h4 class="font-bold mb-2">工作室亮点</h4>
+            <p class="text-slate-500 font-medium">${escapeHtml(data.feature || '全心全意为民服务')}</p>
+            <p class="text-sm text-slate-400 mt-6 border-t border-[#bacbe3] pt-4 italic">📍 ${escapeHtml(data.address)}</p>
+        </div>
+        ${relatedActivity ? `
+        <div class="col-span-2">
+            <img src="${BASE_PATH+escapeHtml(relatedActivity.img)}" class="w-full rounded-2xl shadow-lg max-h-64 object-cover cursor-pointer" onclick="openLightbox('${BASE_PATH+escapeHtml(relatedActivity.img)}')" onerror="this.style.display='none'">
+            <p class="text-xs text-slate-400 mt-2 text-center">${escapeHtml(relatedActivity.title)}</p>
+        </div>` : ''}
+    `;
+    document.getElementById('modal-container').style.display = 'flex';
+}
+
+function closeModal() { document.getElementById('modal-container').style.display = 'none'; }
+
+// ===== TAB SWITCHING =====
+function switchTab(type, el) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+    renderStats(type);
+    if(type === 'sectors') renderSectors();
+    if(type === 'plans') renderPlans();
+    if(type === 'studios') renderStudios();
+    if(type === 'activities') renderActivities();
+    if(type === 'streets') renderStreets();
+}
+
+// Init
+renderStats('sectors');
+renderSectors();
+</script>
 </body>
 </html>
